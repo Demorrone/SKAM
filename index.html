@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="uk">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#171a21">
+	<meta name="description" content="Skam — ігри, добірки та спеціальні пропозиції.">
+	<title>Skam — магазин ігор</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<a class="skip-link" href="#main">Перейти до каталогу</a>
+	<header id="top" class="site-header">
+		<div class="global-bar">
+			<a class="brand" href="#top" aria-label="Skam — головна">
+				<span class="brand-mark" aria-hidden="true">✡</span>
+				<span class="brand-name">SKAM<span>STORE</span></span>
+			</a>
+			<nav class="primary-nav" aria-label="Основна навігація">
+				<a class="active" href="#main">Магазин</a>
+				<a href="#trending">Спільнота</a>
+				<a href="#footer">Підтримка</a>
+			</nav>
+			<div class="account-tools">
+				<button class="text-action install-action" type="button"><span aria-hidden="true">⇩</span> Завантажити клієнт</button>
+				<button class="icon-action notification-action" type="button" aria-label="Сповіщення"><span aria-hidden="true">♧</span><i></i></button>
+				<span class="tool-divider" aria-hidden="true"></span>
+				<button class="profile" type="button" aria-label="Профіль гравця Nox">
+					<span class="avatar">N</span>
+					<span class="profile-copy"><strong>Nox</strong><small><i></i> У мережі <span>$148.80</span></small></span>
+					<span class="chevron" aria-hidden="true">⌄</span>
+				</button>
+			</div>
+		</div>
+		<div class="store-bar">
+			<nav class="store-nav" aria-label="Розділи магазину">
+				<a href="#featured">Головна</a>
+				<a href="#trending">Популярне</a>
+				<a href="#genres">Категорії <span aria-hidden="true">⌄</span></a>
+				<a href="#recommendations">Новинки</a>
+			</nav>
+			<label class="search-box">
+				<span class="sr-only">Пошук у магазині</span>
+				<input id="store-search" type="search" placeholder="Пошук у магазині" autocomplete="off">
+				<span aria-hidden="true">⌕</span>
+			</label>
+			<a class="wishlist-link" href="#favorites"><span aria-hidden="true">♡</span><span>Обране</span><span class="wishlist-count" id="favorite-count" hidden>0</span></a>
+			<button class="cart-link" type="button" aria-label="Відкрити кошик, 0 товарів"><span aria-hidden="true">▱</span><b id="cart-count">0</b></button>
+		</div>
+	</header>
+	<dialog class="cart-dialog" id="cart-dialog" aria-labelledby="cart-heading">
+		<div class="cart-header"><div><p class="eyebrow">ВАШІ ПОКУПКИ</p><h2 id="cart-heading">Кошик</h2></div><button class="cart-close" id="cart-close" type="button" aria-label="Закрити кошик">×</button></div>
+		<div class="cart-items" id="cart-items"></div>
+		<div class="cart-footer"><p class="cart-status" id="cart-status" role="status" aria-live="polite"></p><div class="cart-total"><span>Разом</span><strong id="cart-total">$0.00</strong></div><button class="primary-button checkout-button" id="checkout-button" type="button" disabled>Оформити замовлення</button><button class="cart-continue" id="continue-shopping" type="button">Продовжити покупки</button></div>
+	</dialog>
+
+	<main id="main" class="page-shell">
+		<section id="featured" class="featured-section" aria-labelledby="featured-heading">
+			<div class="section-heading">
+				<div><p class="eyebrow">ВИБІР РЕДАКЦІЇ</p><h1 id="featured-heading">Рекомендуємо</h1></div>
+				<a class="section-link" href="#recommendations">Усі рекомендації <span aria-hidden="true">→</span></a>
+			</div>
+			<div class="featured-layout">
+				<article class="feature-art" id="feature-art">
+					<img id="feature-image" src="cyberdruk.webp" alt="Обкладинка Cyberdruk 2077">
+					<div class="feature-shade"></div>
+					<div class="feature-topline"><span class="pill pill-blue">РЕКОМЕНДОВАНО</span><span class="pill pill-glass">ХІТ</span></div>
+					<div class="feature-copy">
+						<p class="eyebrow">НОВА ЕРА ПОЧИНАЄТЬСЯ ТУТ</p>
+						<h2 id="feature-wordmark">CYBERDRUK<br>2077</h2>
+						<span class="wordmark-rule"></span>
+						<p class="feature-tagline">Місто пам’ятає все.</p>
+					</div>
+					<div class="feature-meta"><span>◉ 24 891 гравець зараз</span><i></i><span>Розробник: Red Engine Studio</span></div>
+				</article>
+				<aside class="feature-details">
+					<div class="feature-intro"><p class="eyebrow">ГРА ТИЖНЯ</p><h2 id="feature-title">Cyberdruk 2077</h2><p id="feature-description">Станьте легендою нічного міста у масштабній RPG про свободу вибору.</p></div>
+					<div class="tag-list"><span>Відкритий світ</span><span>RPG</span><span>Екшн</span></div>
+					<div class="rating"><strong>Дуже схвальні</strong><small>96% із 48 291 відгуку</small></div>
+					<div class="platform-note"><span aria-hidden="true">▣</span><span aria-hidden="true">⌘</span><small>Повна підтримка контролерів</small></div>
+					<div class="purchase-row"><span class="discount">−45%</span><span class="price-stack"><del>$89.99</del><strong>$49.49</strong></span><small class="sale-note">Знижка до 12 лист.</small></div>
+					<button class="primary-button add-to-cart" type="button" data-game="Cyberdruk 2077"><span aria-hidden="true">＋</span> До кошика</button>
+				</aside>
+			</div>
+			<div class="carousel-bar"><span id="slide-count">01 <i>/</i> 06</span><div class="carousel-dots" aria-label="Слайди каруселі"><button class="selected" aria-label="Слайд 1"></button><button aria-label="Слайд 2"></button><button aria-label="Слайд 3"></button><button aria-label="Слайд 4"></button><button aria-label="Слайд 5"></button><button aria-label="Слайд 6"></button></div><div class="carousel-controls"><button id="slide-prev" type="button" aria-label="Попередня гра">←</button><button id="slide-next" type="button" aria-label="Наступна гра">→</button></div></div>
+		</section>
+
+		<section class="browse-layout" aria-label="Ігри та спеціальні пропозиції">
+			<div id="trending" class="trending-section">
+				<div class="section-heading"><div><p class="eyebrow">ЗАРАЗ У ТРЕНДІ</p><h2>Популярні ігри</h2></div><a class="section-link" href="#recommendations">Усі ігри <span aria-hidden="true">→</span></a></div>
+				<div class="filter-tabs" role="tablist" aria-label="Фільтр ігор">
+					<button class="selected" type="button" role="tab" aria-selected="true" data-filter="all">Лідери продажів</button>
+					<button type="button" role="tab" aria-selected="false" data-filter="new">Нові релізи</button>
+					<button type="button" role="tab" aria-selected="false" data-filter="discount">Зі знижкою</button>
+					<button type="button" role="tab" aria-selected="false" data-filter="popular">Популярні</button>
+				</div>
+				<div class="trending-list">
+					<article class="game-row" data-title="Interpol Strike 2" data-category="popular discount"><img src="is2.webp" alt="" loading="lazy"><div class="row-copy"><h3>Interpol Strike 2</h3><p>Тактичний шутер · Кооператив · Екшн</p><div class="row-meta"><span>▣ PC</span><strong>Дуже схвальні</strong><span>18,4 тис.</span></div></div><div class="row-purchase"><div class="compact-price"><b>−35%</b><span><del>$59.99</del><strong>$38.99</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Interpol Strike 2" aria-label="Додати Interpol Strike 2 до кошика" title="Додати до кошика">＋</button><small>У продажу</small></div></article>
+					<article class="game-row" data-title="Blue Alive Damnation II" data-category="popular new"><img src="bad2.webp" alt="" loading="lazy"><div class="row-copy"><h3>Blue Alive Damnation II</h3><p>Пригода · Відкритий світ · Екшн</p><div class="row-meta"><span>▣ PC</span><strong>Надзвичайно схвальні</strong><span>42,1 тис.</span></div></div><div class="row-purchase"><div class="compact-price"><b>−40%</b><span><del>$59.99</del><strong>$35.99</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Blue Alive Damnation II" aria-label="Додати Blue Alive Damnation II до кошика" title="Додати до кошика">＋</button><small>У продажу</small></div></article>
+					<article class="game-row" data-title="Persona 3 Reborn" data-category="popular discount"><img src="p3r.webp" alt="" loading="lazy"><div class="row-copy"><h3>Persona 3 Reborn</h3><p>JRPG · Сюжетна гра · Покрокова гра</p><div class="row-meta"><span>▣ PC</span><strong>Дуже схвальні</strong><span>9,6 тис.</span></div></div><div class="row-purchase"><div class="compact-price"><b>−25%</b><span><del>$49.99</del><strong>$37.49</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Persona 3 Reborn" aria-label="Додати Persona 3 Reborn до кошика" title="Додати до кошика">＋</button><small>До 12 листопада</small></div></article>
+					<article class="game-row" data-title="Persona 4 Rehammer" data-category="popular new"><img src="p4r.webp" alt="" loading="lazy"><div class="row-copy"><h3>Persona 4 Rehammer</h3><p>JRPG · Пригода · Аніме</p><div class="row-meta"><span>▣ PC</span><strong>Дуже схвальні</strong><span>6,2 тис.</span></div></div><div class="row-purchase"><div class="compact-price"><b>−10%</b><span><del>$49.99</del><strong>$44.99</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Persona 4 Rehammer" aria-label="Додати Persona 4 Rehammer до кошика" title="Додати до кошика">＋</button><small>До 8 листопада</small></div></article>
+					<article class="game-row" data-title="Become Drun" data-category="new discount"><img src="drun.webp" alt="" loading="lazy"><div class="row-copy"><h3>Become Drun</h3><p>Наукова фантастика · Детектив · Вибір</p><div class="row-meta"><span>▣ PC</span><strong>Дуже схвальні</strong><span>31,8 тис.</span></div></div><div class="row-purchase"><div class="compact-price"><b>−60%</b><span><del>$29.99</del><strong>$11.99</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Become Drun" aria-label="Додати Become Drun до кошика" title="Додати до кошика">＋</button><small>До 15 листопада</small></div></article>
+				</div>
+				<div class="list-summary"><span>Добірка оновлюється щодня</span><a href="#recommendations">Переглянути каталог →</a></div>
+			</div>
+
+			<aside class="store-sidebar">
+				<section class="offers-section"><div class="section-heading"><div><p class="eyebrow">НЕ ПРОҐАВ</p><h2>Спецпропозиція</h2></div><a class="section-link" href="#weekend">Усі <span aria-hidden="true">→</span></a></div>
+					<article class="offer-card"><div class="offer-art"><img src="ultrakall.webp" alt="Ultrakall" loading="lazy"><span class="pill pill-blue">ЧАС ГРАТИ</span><h3>ULTRAKALL</h3></div><div class="offer-copy"><p>Швидкість, сталь і чистий адреналін. Заберіть гру за спеціальною ціною.</p><div class="offer-bottom"><small>◷ Ще 2 дні</small><div class="compact-price"><b>−50%</b><span><del>$19.99</del><strong>$9.99</strong></span></div><button class="add-item-button add-to-cart" type="button" data-game="Ultrakall" aria-label="Додати Ultrakall до кошика" title="Додати до кошика">＋</button></div></div></article>
+				</section>
+				<section class="category-panel"><h3>ПОПУЛЯРНІ ЖАНРИ</h3><a href="#genres"><span>⌖</span>Екшн і шутери <small>124</small></a><a href="#genres"><span>⚔</span>Рольові ігри <small>86</small></a><a href="#genres"><span>▰</span>Перегони <small>42</small></a><a href="#genres"><span>◈</span>Пригоди <small>97</small></a><a href="#genres"><span>♧</span>Для компанії <small>31</small></a><a class="all-categories" href="#genres">Усі категорії →</a></section>
+			</aside>
+		</section>
+
+		<section id="recommendations" class="recommendation-section">
+			<div class="section-heading"><div><p class="eyebrow">ДОБІРКА ДЛЯ ТЕБЕ</p><h2>Ігри, які варто відкрити</h2></div><a class="section-link" href="#genres">Більше рекомендацій <span aria-hidden="true">→</span></a></div>
+			<div class="game-grid">
+				<article class="game-card" data-title="Blue Alive Damnation II" data-category="new"><div class="card-art"><img src="bad2.webp" alt="Обкладинка Blue Alive Damnation II" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Blue Alive Damnation II до обраного">♡</button></div><div class="card-copy"><h3>Blue Alive Damnation II</h3><p>Відкритий світ · Екшн</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Blue Alive Damnation II" aria-label="Додати Blue Alive Damnation II до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−40%</b><span><del>$59.99</del><strong>$35.99</strong></span></div></div></article>
+				<article class="game-card" data-title="Interpol Strike 2" data-category="popular discount"><div class="card-art"><img src="is2.webp" alt="Обкладинка Interpol Strike 2" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Interpol Strike 2 до обраного">♡</button></div><div class="card-copy"><h3>Interpol Strike 2</h3><p>Тактичний шутер · Кооператив</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Interpol Strike 2" aria-label="Додати Interpol Strike 2 до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−35%</b><span><del>$59.99</del><strong>$38.99</strong></span></div></div></article>
+				<article class="game-card" data-title="Persona 4 Rehammer" data-category="new"><div class="card-art"><img src="p4r.webp" alt="Обкладинка Persona 4 Rehammer" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Persona 4 Rehammer до обраного">♡</button></div><div class="card-copy"><h3>Persona 4 Rehammer</h3><p>JRPG · Пригода</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Persona 4 Rehammer" aria-label="Додати Persona 4 Rehammer до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−10%</b><span><del>$49.99</del><strong>$44.99</strong></span></div></div></article>
+				<article class="game-card" data-title="Ultrakall" data-category="discount popular"><div class="card-art"><img src="ultrakall.webp" alt="Обкладинка Ultrakall" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Ultrakall до обраного">♡</button></div><div class="card-copy"><h3>Ultrakall</h3><p>Екшн · Швидкий шутер</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Ultrakall" aria-label="Додати Ultrakall до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−50%</b><span><del>$19.99</del><strong>$9.99</strong></span></div></div></article>
+			</div>
+		</section>
+
+		<section id="favorites" class="favorites-section">
+			<div class="section-heading"><div><p class="eyebrow">ТВОЯ КОЛЕКЦІЯ</p><h2>Обрані ігри</h2></div><span class="favorites-count-label" id="favorites-count-label">0 ігор</span></div>
+			<p class="favorites-empty" id="favorites-empty">Натисни ♡ на картці гри, щоб зберегти її тут.</p>
+			<div class="game-grid is-hidden" id="favorite-grid" aria-live="polite"></div>
+		</section>
+
+		<section id="genres" class="genre-section"><div class="section-heading"><div><p class="eyebrow">ОБИРАЙ НАСТРІЙ</p><h2>Знайди свій жанр</h2></div><a class="section-link" href="#trending">Усі жанри <span aria-hidden="true">→</span></a></div>
+			<div class="genre-grid">
+				<a class="genre-tile" href="#trending" style="--genre-image: url('is2.webp')"><strong>Шутери</strong><span>Цілься. Дій.</span><i>↗</i></a>
+				<a class="genre-tile" href="#trending" style="--genre-image: url('bad2.webp')"><strong>Пригоди</strong><span>За горизонтом</span><i>↗</i></a>
+				<a class="genre-tile" href="#trending" style="--genre-image: url('p3r.webp')"><strong>Рольові ігри</strong><span>Твоя історія</span><i>↗</i></a>
+				<a class="genre-tile" href="#trending" style="--genre-image: url('cyberdruk.webp')"><strong>Відкритий світ</strong><span>Без меж</span><i>↗</i></a>
+			</div>
+		</section>
+
+		<section id="weekend" class="weekend-banner"><img src="p4r.webp" alt="" loading="lazy"><div class="weekend-shade"></div><div class="weekend-copy"><p class="eyebrow">ДОБІРКА ВИХІДНОГО ДНЯ</p><h2>Великі історії. Менша ціна.</h2><p>Пригоди, у яких легко загубитися на всі вихідні.</p></div><a class="primary-button" href="#recommendations">Переглянути добірку <span aria-hidden="true">→</span></a></section>
+	</main>
+
+	<footer id="footer" class="site-footer"><a class="brand footer-brand" href="#top" aria-label="Skam — нагору"><span class="brand-mark" aria-hidden="true">✡</span></a><div class="footer-legal"><p>© 2026 Skam Interactive. Усі права захищені.</p><nav aria-label="Правова інформація"><a href="#footer">Про Skam</a><a href="#footer">Конфіденційність</a><a href="#footer">Умови використання</a><a href="#footer">Підтримка</a></nav></div><span class="service-status"><i></i> Усі системи працюють</span><button class="language-button" type="button">UK <span aria-hidden="true">⌄</span></button></footer>
+</body>
+</html>
