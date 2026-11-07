@@ -29,9 +29,9 @@
 				<button class="text-action install-action" type="button"><span aria-hidden="true">⇩</span> Завантажити клієнт</button>
 				<button class="icon-action notification-action" type="button" aria-label="Сповіщення"><span aria-hidden="true">♧</span><i></i></button>
 				<span class="tool-divider" aria-hidden="true"></span>
-				<button class="profile" type="button" aria-label="Профіль гравця Nox">
-					<span class="avatar">N</span>
-					<span class="profile-copy"><strong>Nox</strong><small><i></i> У мережі <span>$14.88</span></small></span>
+				<button class="profile" id="profile-button" type="button" aria-label="Відкрити налаштування профілю">
+					<span class="avatar" id="player-avatar" aria-hidden="true">N</span>
+					<span class="profile-copy"><strong id="player-name">Nox</strong><small><i></i> У мережі <span>$14.88</span></small></span>
 					<span class="chevron" aria-hidden="true">⌄</span>
 				</button>
 			</div>
@@ -57,6 +57,30 @@
 		<div class="cart-items" id="cart-items"></div>
 		<div class="cart-footer"><p class="cart-status" id="cart-status" role="status" aria-live="polite"></p><div class="cart-total"><span>Разом</span><strong id="cart-total">$0.00</strong></div><button class="primary-button checkout-button" id="checkout-button" type="button" disabled>Оформити замовлення</button><button class="cart-continue" id="continue-shopping" type="button">Продовжити покупки</button></div>
 	</dialog>
+	<dialog class="cart-dialog profile-dialog" id="profile-dialog" aria-labelledby="profile-heading">
+		<div class="cart-header"><div><p class="eyebrow">ОБЛІКОВИЙ ЗАПИС</p><h2 id="profile-heading">Налаштування профілю</h2></div><button class="cart-close" id="profile-close" type="button" aria-label="Закрити налаштування профілю">×</button></div>
+		<form class="profile-form" id="profile-form">
+			<label class="profile-field" for="nickname-input">Ігровий нік<input id="nickname-input" name="nickname" type="text" maxlength="24" autocomplete="nickname" required></label>
+			<div class="avatar-editor"><span class="avatar avatar-preview" id="avatar-preview" aria-hidden="true">N</span><div class="avatar-editor-actions"><label class="avatar-file-control">Обрати зображення<input id="avatar-file" type="file" accept="image/png,image/jpeg,image/webp"></label><button class="cart-remove" id="clear-avatar" type="button">Скинути аватар</button></div></div>
+			<p class="profile-status" id="profile-status" role="status" aria-live="polite"></p>
+			<button class="primary-button" type="submit">Зберегти профіль</button>
+		</form>
+	</dialog>
+	<dialog class="game-dialog" id="game-dialog" aria-labelledby="game-dialog-title">
+		<button class="cart-close game-dialog-close" id="game-dialog-close" type="button" aria-label="Закрити опис гри">×</button>
+		<div class="game-detail-layout">
+			<img class="game-detail-image" id="game-detail-image" src="" alt="">
+			<div class="game-detail-copy">
+				<p class="eyebrow">СТОРІНКА ГРИ</p>
+				<h2 id="game-dialog-title"></h2>
+				<div class="game-detail-tags" id="game-detail-tags"></div>
+				<p class="game-detail-description" id="game-detail-description"></p>
+				<div class="game-detail-rating"><strong id="game-detail-review"></strong><span id="game-detail-review-count"></span></div>
+				<dl class="game-detail-facts"><div><dt>Розробник</dt><dd id="game-detail-developer"></dd></div><div><dt>Платформа</dt><dd>ПК</dd></div><div><dt>Дата виходу</dt><dd id="game-detail-release"></dd></div><div><dt>Гравців зараз</dt><dd id="game-detail-players"></dd></div></dl>
+				<div class="game-detail-actions"><div class="game-detail-price"><del id="game-detail-original"></del><strong id="game-detail-current"></strong></div><button class="primary-button add-to-cart" id="game-detail-cart" type="button"><span aria-hidden="true">＋</span> До кошика</button><button class="game-detail-favorite" id="game-detail-favorite" type="button" aria-pressed="false"><span aria-hidden="true">♡</span> В обране</button></div>
+			</div>
+		</div>
+	</dialog>
 
 	<main id="main" class="page-shell">
 		<section id="featured" class="featured-section" aria-labelledby="featured-heading">
@@ -78,7 +102,7 @@
 					<div class="feature-meta"><span>◉ 24 891 гравець зараз</span><i></i><span>Розробник: Red Engine Studio</span></div>
 				</article>
 				<aside class="feature-details">
-					<div class="feature-intro"><p class="eyebrow">ГРА ТИЖНЯ</p><h2 id="feature-title">Cyberdruk 2067</h2><p id="feature-description">Станьте легендою нічного міста у масштабній RPG про свободу вибору.</p></div>
+					<div class="feature-intro"><p class="eyebrow">ГРА ТИЖНЯ</p><h2 id="feature-title"><button class="game-title-button" type="button" data-game-view="Cyberdruk 2067">Cyberdruk 2067</button></h2><p id="feature-description">Станьте легендою нічного міста у масштабній RPG про свободу вибору.</p></div>
 					<div class="tag-list"><span>Відкритий світ</span><span>RPG</span><span>Екшн</span></div>
 					<div class="rating"><strong>Дуже схвальні</strong><small>96% із 48 291 відгуку</small></div>
 					<div class="platform-note"><span aria-hidden="true">▣</span><span aria-hidden="true">⌘</span><small>Повна підтримка контролерів</small></div>
@@ -121,7 +145,7 @@
 			<div class="game-grid">
 				<article class="game-card" data-title="Blue Alive Damnation II" data-category="new"><div class="card-art"><img src="bad2.webp" alt="Обкладинка Blue Alive Damnation II" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Blue Alive Damnation II до обраного">♡</button></div><div class="card-copy"><h3>Blue Alive Damnation II</h3><p>Відкритий світ · Екшн</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Blue Alive Damnation II" aria-label="Додати Blue Alive Damnation II до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−40%</b><span><del>$99.99</del><strong>$55.99</strong></span></div></div></article>
 				<article class="game-card" data-title="Interpol Strike 2" data-category="popular discount"><div class="card-art"><img src="is2.webp" alt="Обкладинка Interpol Strike 2" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Interpol Strike 2 до обраного">♡</button></div><div class="card-copy"><h3>Interpol Strike 2</h3><p>Тактичний шутер · Кооператив</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Interpol Strike 2" aria-label="Додати Interpol Strike 2 до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−35%</b><span><del>$79.99</del><strong>$49.99</strong></span></div></div></article>
-				<article class="game-card" data-title="Perdrun 4 Rehammam" data-category="new"><div class="card-art"><img src="p4r.webp" alt="Обкладинка Perdrun 4 Rehammam" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Perdrun 4 Rehammam до обраного">♡</button></div><div class="card-copy"><h3>Perdrun 4 Rehammam</h3><p>JRPG · Пригода</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Persona 4 Rehammer" aria-label="Додати Perdrun 4 Rehammam до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−10%</b><span><del>$59.99</del><strong>$45.99</strong></span></div></div></article>
+				<article class="game-card" data-title="Perdrun 4 Rehammam" data-category="new"><div class="card-art"><img src="p4r.webp" alt="Обкладинка Perdrun 4 Rehammam" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Perdrun 4 Rehammam до обраного">♡</button></div><div class="card-copy"><h3>Perdrun 4 Rehammam</h3><p>JRPG · Пригода</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Perdrun 4 Rehammam" aria-label="Додати Perdrun 4 Rehammam до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−10%</b><span><del>$59.99</del><strong>$45.99</strong></span></div></div></article>
 				<article class="game-card" data-title="Ultrakall" data-category="discount popular"><div class="card-art"><img src="ultrakall.webp" alt="Обкладинка Ultrakall" loading="lazy"><button class="favorite-button" type="button" aria-label="Додати Ultrakall до обраного">♡</button></div><div class="card-copy"><h3>Ultrakall</h3><p>Екшн · Швидкий шутер</p></div><div class="card-actions"><span class="platform-icon" aria-label="ПК">▣</span><button class="add-item-button add-to-cart" type="button" data-game="Ultrakall" aria-label="Додати Ultrakall до кошика" title="Додати до кошика">＋</button><div class="compact-price"><b>−50%</b><span><del>$39.99</del><strong>$29.99</strong></span></div></div></article>
 			</div>
 		</section>
