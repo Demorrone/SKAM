@@ -8,7 +8,7 @@ const slides = [
 ];
 
 const featureImage = document.querySelector("#feature-image");
-const featureTitle = document.querySelector("#feature-title");
+const featureTitle = document.querySelector("#feature-title .game-title-button");
 const featureWordmark = document.querySelector("#feature-wordmark");
 const featureDescription = document.querySelector("#feature-description");
 const slideCount = document.querySelector("#slide-count");
@@ -16,18 +16,56 @@ const dots = [...document.querySelectorAll(".carousel-dots button")];
 const searchInput = document.querySelector("#store-search");
 let activeSlide = 0;
 let cartCount = 0;
-const cartItems = new Map();
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const products = new Map([
-	["Cyberdruk 2077", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
+	["Cyberdruk 2067", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
+	["Cyberdruk 2067", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
 	["Interpol Strike 2", { price: 3899, original: 5999, discount: "−35%", image: "is2.webp" }],
 	["Blue Alive Damnation II", { price: 3599, original: 5999, discount: "−40%", image: "bad2.webp" }],
-	["Persona 3 Reborn", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
-	["Persona 4 Rehammer", { price: 4499, original: 4999, discount: "−10%", image: "p4r.webp" }],
+	["Perdrun 3 Reburmalda", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
+	["Perdrun 4 Rehammam", { price: 4599, original: 5999, discount: "−10%", image: "p4r.webp" }],
+	["Perdrun 3 Reburmalda", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
+	["Perdrun 4 Rehammam", { price: 4499, original: 4999, discount: "−10%", image: "p4r.webp" }],
 	["Become Drun", { price: 1199, original: 2999, discount: "−60%", image: "drun.webp" }],
 	["Ultrakall", { price: 999, original: 1999, discount: "−50%", image: "ultrakall.webp" }]
 ]);
+const gameDetails = new Map([
+	["Cyberdruk 2067", { description: "Досліджуйте неоновий мегаполіс, виконуйте контракти та вирішуйте, ким станете у місті, що ніколи не спить.", genres: ["Відкритий світ", "RPG", "Екшн"], developer: "Red Engine Studio", release: "10 жовтня 2026", review: "Дуже схвальні", reviews: "48 291 відгук", players: "24 891" }],
+	["Interpol Strike 2", { description: "Плануйте штурми, координуйте загін і проходьте напружені тактичні операції разом із друзями.", genres: ["Тактичний шутер", "Кооператив", "Екшн"], developer: "Northline Works", release: "18 вересня 2026", review: "Дуже схвальні", reviews: "18 402 відгуки", players: "8 412" }],
+	["Blue Alive Damnation II", { description: "Вирушайте на Дикий Захід, де кожне рішення змінює долю вашого загону та цілого краю.", genres: ["Пригода", "Відкритий світ", "Екшн"], developer: "Frontier House", release: "22 серпня 2026", review: "Надзвичайно схвальні", reviews: "42 108 відгуків", players: "16 520" }],
+	["Perdrun 3 Reburmalda", { description: "Проведіть команду крізь таємничий Темний час у рольовій історії про дружбу, вибір і дорослішання.", genres: ["JRPG", "Сюжетна гра", "Покрокова"], developer: "Atlus North", release: "12 липня 2026", review: "Дуже схвальні", reviews: "9 624 відгуки", players: "3 281" }],
+	["Perdrun 4 Rehammam", { description: "Поверніться до тихого містечка, знайдіть друзів і розкрийте загадки, що ховаються за щоденним туманом.", genres: ["JRPG", "Пригода", "Аніме"], developer: "Atlus North", release: "30 червня 2026", review: "Дуже схвальні", reviews: "6 214 відгуків", players: "2 093" }],
+	["Become Drun", { description: "Розслідуйте злочин у футуристичному місті, де кожен допит і кожен вибір веде до іншої правди.", genres: ["Наукова фантастика", "Детектив", "Сюжетна гра"], developer: "Quantic North", release: "6 травня 2026", review: "Дуже схвальні", reviews: "31 804 відгуки", players: "4 217" }],
+	["Ultrakall", { description: "Пробивайтеся крізь арени на надлюдській швидкості: точність, реакція та ритм тут важливіші за перепочинок.", genres: ["Екшн", "Шутер", "Швидкий темп"], developer: "Iron Cathedral", release: "14 березня 2026", review: "Надзвичайно схвальні", reviews: "12 890 відгуків", players: "5 606" }]
+]);
+gameDetails.set("Cyberdruk 2077", gameDetails.get("Cyberdruk 2067"));
+gameDetails.set("Perdrun 3 Reburmalda", gameDetails.get("Perdrun 3 Reburmalda"));
+gameDetails.set("Perdrun 4 Rehammam", gameDetails.get("Perdrun 4 Rehammam"));
+
+function loadCart() {
+	try {
+		const savedCart = JSON.parse(localStorage.getItem("skam-cart") || "[]");
+		if (!Array.isArray(savedCart)) return new Map();
+		return new Map(savedCart.flatMap((item) => {
+			const product = products.get(item?.name);
+			const quantity = Number(item?.quantity);
+			const price = Number(item?.price);
+			if (!product || !Number.isSafeInteger(quantity) || quantity < 1 || !Number.isSafeInteger(price) || price < 1) return [];
+			return [[item.name, { ...product, price, quantity }]];
+		}));
+	} catch {
+		return new Map();
+	}
+}
+
+const cartItems = loadCart();
 const cartDialog = document.querySelector("#cart-dialog");
+const gameDialog = document.querySelector("#game-dialog");
+const gameDialogTitle = document.querySelector("#game-dialog-title");
+const gameDialogImage = document.querySelector("#game-detail-image");
+const gameDialogTags = document.querySelector("#game-detail-tags");
+const gameDialogCart = document.querySelector("#game-detail-cart");
+const gameDialogFavorite = document.querySelector("#game-detail-favorite");
 const cartItemsElement = document.querySelector("#cart-items");
 const cartTotalElement = document.querySelector("#cart-total");
 const cartStatusElement = document.querySelector("#cart-status");
@@ -36,6 +74,66 @@ const favoriteGrid = document.querySelector("#favorite-grid");
 const favoritesEmpty = document.querySelector("#favorites-empty");
 const favoriteCount = document.querySelector("#favorite-count");
 const favoritesCountLabel = document.querySelector("#favorites-count-label");
+const profileDialog = document.querySelector("#profile-dialog");
+const profileForm = document.querySelector("#profile-form");
+const nicknameInput = document.querySelector("#nickname-input");
+const avatarFile = document.querySelector("#avatar-file");
+const avatarPreview = document.querySelector("#avatar-preview");
+const profileStatus = document.querySelector("#profile-status");
+let playerProfile = loadProfile();
+let pendingAvatar = playerProfile.avatar;
+
+function loadProfile() {
+	try {
+		const savedProfile = JSON.parse(localStorage.getItem("skam-profile") || "{}");
+		const name = typeof savedProfile.name === "string" ? savedProfile.name.trim().slice(0, 24) : "Nox";
+		const avatar = typeof savedProfile.avatar === "string" && /^data:image\/(webp|png|jpeg);base64,/i.test(savedProfile.avatar) ? savedProfile.avatar : "";
+		return { name: name || "Nox", avatar };
+	} catch {
+		return { name: "Nox", avatar: "" };
+	}
+}
+
+function renderAvatar(element, name, imageData) {
+	element.textContent = imageData ? "" : [...name.trim()][0]?.toLocaleUpperCase("uk-UA") || "N";
+	element.style.backgroundImage = imageData ? `url("${imageData}")` : "";
+}
+
+function renderProfile() {
+	document.querySelector("#player-name").textContent = playerProfile.name;
+	document.querySelector("#profile-button").setAttribute("aria-label", `Профіль гравця ${playerProfile.name}`);
+	renderAvatar(document.querySelector("#player-avatar"), playerProfile.name, playerProfile.avatar);
+}
+
+function compressAvatar(file) {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.onerror = () => reject(new Error("Не вдалося прочитати файл."));
+		reader.onload = () => {
+			const image = new Image();
+			image.onerror = () => reject(new Error("Не вдалося відкрити зображення."));
+			image.onload = () => {
+				const size = 192;
+				const cropSize = Math.min(image.naturalWidth, image.naturalHeight);
+				const canvas = document.createElement("canvas");
+				canvas.width = size;
+				canvas.height = size;
+				canvas.getContext("2d").drawImage(image, (image.naturalWidth - cropSize) / 2, (image.naturalHeight - cropSize) / 2, cropSize, cropSize, 0, 0, size, size);
+				resolve(canvas.toDataURL("image/webp", 0.8));
+			};
+			image.src = reader.result;
+		};
+		reader.readAsDataURL(file);
+	});
+}
+
+function saveCart() {
+	try {
+		localStorage.setItem("skam-cart", JSON.stringify([...cartItems].map(([name, item]) => ({ name, price: item.price, image: item.image, quantity: item.quantity }))));
+	} catch {
+		cartStatusElement.textContent = "Не вдалося зберегти кошик у цьому браузері.";
+	}
+}
 
 function loadFavorites() {
 	try {
@@ -114,15 +212,70 @@ function renderCart() {
 	cartTotalElement.textContent = currency.format(totalPrice / 100);
 	checkoutButton.disabled = cartItems.size === 0;
 	updateCartCount();
+	saveCart();
 }
 
-function addGameToCart(name) {
+function addGameToCart(name, sourceButton) {
 	const product = products.get(name);
 	if (!product) return;
 	const existing = cartItems.get(name);
-	cartItems.set(name, { ...product, quantity: (existing?.quantity ?? 0) + 1 });
+	const source = sourceButton?.closest(".game-row, .game-card, .offer-card, .feature-details");
+	const priceText = source?.querySelector(".price-stack strong, .compact-price strong")?.textContent;
+	const displayedPrice = priceText ? Math.round(Number(priceText.replace(/[^\d.]/g, "")) * 100) : product.price;
+	cartItems.set(name, { ...product, price: existing?.price ?? (displayedPrice || product.price), quantity: (existing?.quantity ?? 0) + 1 });
 	cartStatusElement.textContent = `${name} додано до кошика.`;
 	renderCart();
+}
+
+function prepareGameTitleButtons() {
+	document.querySelectorAll(".game-row h3, .game-card h3, .offer-art h3").forEach((heading) => {
+		if (heading.querySelector("button")) return;
+		const source = heading.closest(".game-row, .game-card, .offer-card");
+		let name = source?.dataset.title || heading.textContent.trim();
+		if (name.toLowerCase() === "ultrakall") name = "Ultrakall";
+		if (!products.has(name)) return;
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "game-title-button";
+		button.dataset.gameView = name;
+		button.setAttribute("aria-label", `Переглянути гру ${name}`);
+		button.textContent = heading.textContent.trim();
+		heading.replaceChildren(button);
+		const artwork = source?.querySelector(".card-art img, .game-row > img, .offer-art img");
+		if (artwork) {
+			artwork.dataset.gameView = name;
+			artwork.setAttribute("aria-label", `Переглянути гру ${name}`);
+		}
+	});
+	featureImage.dataset.gameView = featureTitle.dataset.gameView;
+}
+
+function showGameDetails(name) {
+	const product = products.get(name);
+	const details = gameDetails.get(name);
+	if (!product || !details) return;
+	gameDialogTitle.textContent = name;
+	gameDialogImage.src = product.image;
+	gameDialogImage.alt = `Обкладинка ${name}`;
+	document.querySelector("#game-detail-description").textContent = details.description;
+	document.querySelector("#game-detail-review").textContent = details.review;
+	document.querySelector("#game-detail-review-count").textContent = details.reviews;
+	document.querySelector("#game-detail-developer").textContent = details.developer;
+	document.querySelector("#game-detail-release").textContent = details.release;
+	document.querySelector("#game-detail-players").textContent = details.players;
+	document.querySelector("#game-detail-original").textContent = currency.format(product.original / 100);
+	document.querySelector("#game-detail-current").textContent = currency.format(product.price / 100);
+	gameDialogTags.replaceChildren(...details.genres.map((genre) => {
+		const tag = document.createElement("span");
+		tag.textContent = genre;
+		return tag;
+	}));
+	gameDialogCart.dataset.game = name;
+	gameDialogFavorite.dataset.game = name;
+	const isFavorite = favorites.has(name);
+	gameDialogFavorite.setAttribute("aria-pressed", String(isFavorite));
+	gameDialogFavorite.innerHTML = `<span aria-hidden="true">${isFavorite ? "♥" : "♡"}</span> ${isFavorite ? "В обраному" : "В обране"}`;
+	gameDialog.showModal();
 }
 
 function renderFavorites() {
@@ -190,6 +343,9 @@ function showSlide(index) {
 	featureImage.src = slide.image;
 	featureImage.alt = `Обкладинка ${slide.title}`;
 	featureTitle.textContent = slide.title;
+	featureTitle.dataset.gameView = slide.title;
+	featureTitle.setAttribute("aria-label", `Переглянути гру ${slide.title}`);
+	featureImage.dataset.gameView = slide.title;
 	featureWordmark.innerHTML = slide.title.replace(" ", "<br>");
 	featureDescription.textContent = slide.description;
 	const product = products.get(slide.title);
@@ -227,14 +383,31 @@ document.addEventListener("click", (event) => {
 		setFavorite(favoriteButton.closest(".game-card").dataset.title, !isFavorite);
 		return;
 	}
+	const gameTitleButton = event.target.closest("[data-game-view]");
+	if (gameTitleButton) {
+		showGameDetails(gameTitleButton.dataset.gameView);
+		return;
+	}
 
 	const addButton = event.target.closest(".add-to-cart");
 	if (!addButton) return;
-	addGameToCart(addButton.dataset.game);
+	addGameToCart(addButton.dataset.game, addButton);
 	if (addButton.classList.contains("primary-button")) {
 		addButton.innerHTML = "✓ Додано";
 		window.setTimeout(() => { addButton.innerHTML = "<span aria-hidden=\"true\">＋</span> До кошика"; }, 1200);
 	}
+});
+
+gameDialogFavorite.addEventListener("click", () => {
+	const name = gameDialogFavorite.dataset.game;
+	setFavorite(name, !favorites.has(name));
+	const isFavorite = favorites.has(name);
+	gameDialogFavorite.setAttribute("aria-pressed", String(isFavorite));
+	gameDialogFavorite.innerHTML = `<span aria-hidden="true">${isFavorite ? "♥" : "♡"}</span> ${isFavorite ? "В обраному" : "В обране"}`;
+});
+document.querySelector("#game-dialog-close").addEventListener("click", () => gameDialog.close());
+gameDialog.addEventListener("click", (event) => {
+	if (event.target === gameDialog) gameDialog.close();
 });
 
 document.querySelector(".cart-link").addEventListener("click", () => cartDialog.showModal());
@@ -271,5 +444,55 @@ checkoutButton.addEventListener("click", () => {
 	cartStatusElement.textContent = "Замовлення оформлено. Це демоверсія, оплату не списано.";
 });
 
+document.querySelector("#profile-button").addEventListener("click", () => {
+	nicknameInput.value = playerProfile.name;
+	pendingAvatar = playerProfile.avatar;
+	renderAvatar(avatarPreview, nicknameInput.value, pendingAvatar);
+	profileStatus.textContent = "";
+	avatarFile.value = "";
+	profileDialog.showModal();
+});
+document.querySelector("#profile-close").addEventListener("click", () => profileDialog.close());
+document.querySelector("#clear-avatar").addEventListener("click", () => {
+	pendingAvatar = "";
+	renderAvatar(avatarPreview, nicknameInput.value, pendingAvatar);
+});
+nicknameInput.addEventListener("input", () => renderAvatar(avatarPreview, nicknameInput.value, pendingAvatar));
+avatarFile.addEventListener("change", async () => {
+	const file = avatarFile.files[0];
+	if (!file) return;
+	if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
+		profileStatus.textContent = "Оберіть зображення розміром до 10 МБ.";
+		avatarFile.value = "";
+		return;
+	}
+	try {
+		pendingAvatar = await compressAvatar(file);
+		renderAvatar(avatarPreview, nicknameInput.value, pendingAvatar);
+		profileStatus.textContent = "Аватар підготовлено. Збережіть профіль.";
+	} catch {
+		profileStatus.textContent = "Не вдалося обробити це зображення.";
+	}
+});
+profileForm.addEventListener("submit", (event) => {
+	event.preventDefault();
+	const name = nicknameInput.value.trim();
+	if (!name) {
+		profileStatus.textContent = "Введіть ігровий нік.";
+		return;
+	}
+	const nextProfile = { name, avatar: pendingAvatar };
+	try {
+		localStorage.setItem("skam-profile", JSON.stringify(nextProfile));
+		playerProfile = nextProfile;
+		renderProfile();
+		profileDialog.close();
+	} catch {
+		profileStatus.textContent = "Не вдалося зберегти профіль у цьому браузері.";
+	}
+});
+
 renderCart();
+prepareGameTitleButtons();
 renderFavorites();
+renderProfile();
