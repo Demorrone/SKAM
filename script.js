@@ -18,14 +18,32 @@ let activeSlide = 0;
 let cartCount = 0;
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const products = new Map([
-	["Cyberdruk 2067", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
-	["Interpol Strike 2", { price: 3899, original: 5999, discount: "−35%", image: "is2.webp" }],
-	["Blue Alive Damnation II", { price: 3599, original: 5999, discount: "−40%", image: "bad2.webp" }],
-	["Perdrun 3 Reburmalda", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
-	["Perdrun 4 Rehammam", { price: 4499, original: 4999, discount: "−10%", image: "p4r.webp" }],
-	["Become Drun", { price: 1199, original: 2999, discount: "−60%", image: "drun.webp" }],
-	["Ultrakall", { price: 999, original: 1999, discount: "−50%", image: "ultrakall.webp" }]
+	["Cyberdruk 2067", { price: 494900, original: 899900, discount: "−45%", image: "cyberdruk.webp" }],
+	["Interpol Strike 2", { price: 389900, original: 599900, discount: "−35%", image: "is2.webp" }],
+	["Blue Alive Damnation II", { price: 359900, original: 599900, discount: "−40%", image: "bad2.webp" }],
+	["Perdrun 3 Reburmalda", { price: 374900, original: 499900, discount: "−25%", image: "p3r.webp" }],
+	["Perdrun 4 Rehammam", { price: 449900, original: 499900, discount: "−10%", image: "p4r.webp" }],
+	["Become Drun", { price: 119900, original: 299900, discount: "−60%", image: "drun.webp" }],
+	["Ultrakall", { price: 99900, original: 199900, discount: "−50%", image: "ultrakall.webp" }]
 ]);
+
+function applyCatalogPricing() {
+	document.querySelectorAll(".price-stack, .compact-price").forEach((priceGroup) => {
+		const owner = priceGroup.closest(".game-row, .game-card, .offer-card, .feature-details");
+		const gameName = owner?.dataset.title || owner?.querySelector(".add-to-cart")?.dataset.game;
+		const product = products.get(gameName);
+		if (!product) return;
+
+		const originalPrice = priceGroup.querySelector("del");
+		const currentPrice = priceGroup.querySelector("strong");
+		const discount = priceGroup.querySelector("b");
+		if (originalPrice) originalPrice.textContent = currency.format(product.original / 100);
+		if (currentPrice) currentPrice.textContent = currency.format(product.price / 100);
+		if (discount) discount.textContent = product.discount;
+		const featureDiscount = owner.querySelector(".purchase-row .discount");
+		if (featureDiscount) featureDiscount.textContent = product.discount;
+	});
+}
 const gameDetails = new Map([
 	["Cyberdruk 2067", { description: "Досліджуйте неоновий мегаполіс, виконуйте контракти та вирішуйте, ким станете у місті, що ніколи не спить.", genres: ["Відкритий світ", "RPG", "Екшн"], developer: "Red Engine Studio", release: "10 жовтня 2026", review: "Дуже схвальні", reviews: "48 291 відгук", players: "24 891" }],
 	["Interpol Strike 2", { description: "Плануйте штурми, координуйте загін і проходьте напружені тактичні операції разом із друзями.", genres: ["Тактичний шутер", "Кооператив", "Екшн"], developer: "Northline Works", release: "18 вересня 2026", review: "Дуже схвальні", reviews: "18 402 відгуки", players: "8 412" }],
@@ -49,9 +67,8 @@ function loadCart() {
 			const name = normalizeGameName(item?.name);
 			const product = products.get(name);
 			const quantity = Number(item?.quantity);
-			const price = Number(item?.price);
-			if (!product || !Number.isSafeInteger(quantity) || quantity < 1 || !Number.isSafeInteger(price) || price < 1) return [];
-			return [[name, { ...product, price, quantity }]];
+			if (!product || !Number.isSafeInteger(quantity) || quantity < 1) return [];
+			return [[name, { ...product, quantity }]];
 		}));
 	} catch {
 		return new Map();
@@ -493,6 +510,7 @@ profileForm.addEventListener("submit", (event) => {
 });
 
 renderCart();
+applyCatalogPricing();
 prepareGameTitleButtons();
 renderFavorites();
 renderProfile();
