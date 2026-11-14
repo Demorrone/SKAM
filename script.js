@@ -1,8 +1,8 @@
 const slides = [
-	{ title: "Cyberdruk 2077", image: "cyberdruk.webp", tagline: "Місто пам’ятає все.", description: "Станьте легендою нічного міста у масштабній RPG про свободу вибору." },
+	{ title: "Cyberdruk 2067", image: "cyberdruk.webp", tagline: "Місто пам’ятає все.", description: "Станьте легендою нічного міста у масштабній RPG про свободу вибору." },
 	{ title: "Interpol Strike 2", image: "is2.webp", tagline: "Команда вирішує все.", description: "Зберіть загін і проведіть ідеальну операцію в тактичному шутері." },
 	{ title: "Blue Alive Damnation II", image: "bad2.webp", tagline: "Дикий Захід не пробачає.", description: "Велика пригода про свободу, вірність і ціну другого шансу." },
-	{ title: "Persona 3 Reborn", image: "p3r.webp", tagline: "Ніч належить тобі.", description: "Удень живіть звичайним життям, а вночі розкрийте таємницю Темної години." },
+	{ title: "Perdrun 3 Reburmalda", image: "p3r.webp", tagline: "Ніч належить тобі.", description: "Удень живіть звичайним життям, а вночі розкрийте таємницю Темної години." },
 	{ title: "Become Drun", image: "drun.webp", tagline: "Кожен вибір має ціну.", description: "Розслідуйте злочин у місті, де людина й машина стали одним цілим." },
 	{ title: "Ultrakall", image: "ultrakall.webp", tagline: "Рухайся. Або зникни.", description: "Стрімкий бойовий екшн, де все вирішують точність і швидкість." }
 ];
@@ -19,11 +19,8 @@ let cartCount = 0;
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const products = new Map([
 	["Cyberdruk 2067", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
-	["Cyberdruk 2067", { price: 4949, original: 8999, discount: "−45%", image: "cyberdruk.webp" }],
 	["Interpol Strike 2", { price: 3899, original: 5999, discount: "−35%", image: "is2.webp" }],
 	["Blue Alive Damnation II", { price: 3599, original: 5999, discount: "−40%", image: "bad2.webp" }],
-	["Perdrun 3 Reburmalda", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
-	["Perdrun 4 Rehammam", { price: 4599, original: 5999, discount: "−10%", image: "p4r.webp" }],
 	["Perdrun 3 Reburmalda", { price: 3749, original: 4999, discount: "−25%", image: "p3r.webp" }],
 	["Perdrun 4 Rehammam", { price: 4499, original: 4999, discount: "−10%", image: "p4r.webp" }],
 	["Become Drun", { price: 1199, original: 2999, discount: "−60%", image: "drun.webp" }],
@@ -38,20 +35,23 @@ const gameDetails = new Map([
 	["Become Drun", { description: "Розслідуйте злочин у футуристичному місті, де кожен допит і кожен вибір веде до іншої правди.", genres: ["Наукова фантастика", "Детектив", "Сюжетна гра"], developer: "Quantic North", release: "6 травня 2026", review: "Дуже схвальні", reviews: "31 804 відгуки", players: "4 217" }],
 	["Ultrakall", { description: "Пробивайтеся крізь арени на надлюдській швидкості: точність, реакція та ритм тут важливіші за перепочинок.", genres: ["Екшн", "Шутер", "Швидкий темп"], developer: "Iron Cathedral", release: "14 березня 2026", review: "Надзвичайно схвальні", reviews: "12 890 відгуків", players: "5 606" }]
 ]);
-gameDetails.set("Cyberdruk 2077", gameDetails.get("Cyberdruk 2067"));
-gameDetails.set("Perdrun 3 Reburmalda", gameDetails.get("Perdrun 3 Reburmalda"));
-gameDetails.set("Perdrun 4 Rehammam", gameDetails.get("Perdrun 4 Rehammam"));
+function normalizeGameName(name) {
+	if (name === "Cyberdruk 2077") return "Cyberdruk 2067";
+	if (name === "Persona 3 Reborn") return "Perdrun 3 Reburmalda";
+	return name;
+}
 
 function loadCart() {
 	try {
 		const savedCart = JSON.parse(localStorage.getItem("skam-cart") || "[]");
 		if (!Array.isArray(savedCart)) return new Map();
 		return new Map(savedCart.flatMap((item) => {
-			const product = products.get(item?.name);
+			const name = normalizeGameName(item?.name);
+			const product = products.get(name);
 			const quantity = Number(item?.quantity);
 			const price = Number(item?.price);
 			if (!product || !Number.isSafeInteger(quantity) || quantity < 1 || !Number.isSafeInteger(price) || price < 1) return [];
-			return [[item.name, { ...product, price, quantity }]];
+			return [[name, { ...product, price, quantity }]];
 		}));
 	} catch {
 		return new Map();
@@ -138,7 +138,7 @@ function saveCart() {
 function loadFavorites() {
 	try {
 		const savedFavorites = JSON.parse(localStorage.getItem("skam-favorites") || "[]");
-		return new Set(Array.isArray(savedFavorites) ? savedFavorites.filter((name) => products.has(name)) : []);
+		return new Set(Array.isArray(savedFavorites) ? savedFavorites.map(normalizeGameName).filter((name) => products.has(name)) : []);
 	} catch {
 		return new Set();
 	}
@@ -280,7 +280,7 @@ function showGameDetails(name) {
 
 function renderFavorites() {
 	favoriteGrid.replaceChildren();
-	document.querySelectorAll(".recommendation-section .game-card").forEach((card) => {
+	document.querySelectorAll(".recommendation-section .game-card, .all-games-section .game-card").forEach((card) => {
 		const name = card.dataset.title;
 		const isFavorite = favorites.has(name);
 		const button = card.querySelector(".favorite-button");
@@ -290,7 +290,7 @@ function renderFavorites() {
 	});
 
 	favorites.forEach((name) => {
-		const sourceCard = [...document.querySelectorAll(".recommendation-section .game-card")]
+		const sourceCard = [...document.querySelectorAll(".recommendation-section .game-card, .all-games-section .game-card")]
 			.find((card) => card.dataset.title === name);
 		if (!sourceCard) return;
 		const card = sourceCard.cloneNode(true);
