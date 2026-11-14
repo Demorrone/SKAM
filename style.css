@@ -175,6 +175,7 @@ img { display: block; max-width: 100%; }
 .all-categories { color: var(--blue); font-size: 11px; }
 
 .recommendation-section { margin-top: 40px; }
+.all-games-section { margin-block: 40px; }
 .game-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 .favorites-section { margin-block: 40px; }
 .favorites-section .section-heading { margin-bottom: 16px; }
