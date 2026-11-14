@@ -211,6 +211,10 @@ img { display: block; max-width: 100%; }
 .weekend-copy h2 { margin: 0; color: white; font-family: "Barlow Condensed", sans-serif; font-size: 36px; font-weight: 600; line-height: 1.15; }
 .weekend-copy > p:last-child { margin: 5px 0 0; color: var(--soft); font-size: 12px; line-height: 1.5; }
 .weekend-banner .primary-button { flex: 0 0 auto; }
+.support-section { padding: 34px max(28px, calc((100% - 1280px) / 2)); border-top: 1px solid var(--line); background: #172535; }
+.support-content { display: grid; grid-template-columns: minmax(180px, 260px) minmax(0, 1fr); align-items: center; gap: 32px; max-width: 860px; margin: 0 auto; }
+.support-content > img { width: 100%; max-height: 300px; object-fit: contain; object-position: center; }
+.support-copy h2 { max-width: 680px; margin: 0; color: white; font-family: "Barlow Condensed", sans-serif; font-size: 32px; font-weight: 600; line-height: 1.25; }
 
 .site-footer { min-height: 100px; gap: 28px; background: var(--nav); }
 .footer-brand { flex-basis: 64px; }
@@ -436,6 +440,10 @@ img { display: block; max-width: 100%; }
 	.game-detail-actions { gap: 8px; }
 	.game-detail-actions .primary-button { flex: 1; padding-inline: 12px; }
 	.game-detail-favorite { flex: 0 0 auto; }
+	.support-section { padding: 24px 16px; }
+	.support-content { grid-template-columns: 1fr; gap: 18px; }
+	.support-content > img { width: min(100%, 220px); max-height: 260px; margin-inline: auto; }
+	.support-copy h2 { font-size: 26px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
